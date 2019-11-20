@@ -1,0 +1,19 @@
+@keyframes colorChange {
+  0% {
+    background: yellow;
+  }
+  100%{
+    background: dodgerblue;
+  }
+}
+
+.circle {
+  width: 200px;
+  height: 200px;
+  border: 2px solid #000;
+  border-radius: 50%;
+}
+
+.circle:hover{
+  animation: colorChange 3s alternate ease-in-out infinite;
+}

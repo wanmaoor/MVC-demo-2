@@ -1,0 +1,24 @@
+
+.tab-bar {
+  display: flex;
+  width: 50%;
+}
+
+.tab-bar li {
+  width: 50%;
+  border: 1px solid #000;
+  text-align: center;
+  cursor: pointer;
+}
+
+.tab-bar li.selected {
+  background: darkgray;
+}
+
+.tab-content li {
+  display: none;
+}
+
+.tab-content li.active {
+  display: block;
+}

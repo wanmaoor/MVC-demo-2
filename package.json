@@ -1,0 +1,13 @@
+{
+  "name": "mvc-demo-2",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "wanmaoor <wanmao1284879375@outlook.com>",
+  "license": "MIT",
+  "dependencies": {
+    "jquery": "^3.4.1"
+  },
+  "devDependencies": {
+    "cssnano": "^4.1.10"
+  }
+}
