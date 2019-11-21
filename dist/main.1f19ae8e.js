@@ -199,43 +199,7 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"C:/Users/wanma/AppData/Roaming/npm/node_modules/parcel/src/builtins/css-loader.js"}],"app1.js":[function(require,module,exports) {
-"use strict";
-
-require("./app1.css");
-
-var display = document.querySelector('#display');
-var button1 = document.querySelector('#button1');
-var button2 = document.querySelector('#button2');
-var button3 = document.querySelector('#button3');
-var button4 = document.querySelector('#button4');
-var num = localStorage.getItem('res');
-display.textContent = num || 0;
-button1.addEventListener('click', function () {
-  var res = parseInt(display.textContent);
-  res += 2;
-  localStorage.setItem('res', res.toString());
-  display.textContent = res.toString();
-});
-button2.addEventListener('click', function () {
-  var res = parseInt(display.textContent);
-  res -= 2;
-  localStorage.setItem('res', res.toString());
-  display.textContent = res.toString();
-});
-button3.addEventListener('click', function () {
-  var res = parseInt(display.textContent);
-  res *= 2;
-  localStorage.setItem('res', res.toString());
-  display.textContent = res.toString();
-});
-button4.addEventListener('click', function () {
-  var res = parseInt(display.textContent);
-  res /= 2;
-  localStorage.setItem('res', res.toString());
-  display.textContent = res.toString();
-});
-},{"./app1.css":"app1.css"}],"C:/Users/wanma/AppData/Roaming/npm/node_modules/parcel/node_modules/process/browser.js":[function(require,module,exports) {
+},{"_css_loader":"C:/Users/wanma/AppData/Roaming/npm/node_modules/parcel/src/builtins/css-loader.js"}],"C:/Users/wanma/AppData/Roaming/npm/node_modules/parcel/node_modules/process/browser.js":[function(require,module,exports) {
 
 // shim for using process in browser
 var process = module.exports = {}; // cached from whatever global is present so that test runners that stub it
@@ -11047,7 +11011,53 @@ if ( !noGlobal ) {
 return jQuery;
 } );
 
-},{"process":"C:/Users/wanma/AppData/Roaming/npm/node_modules/parcel/node_modules/process/browser.js"}],"app2.css":[function(require,module,exports) {
+},{"process":"C:/Users/wanma/AppData/Roaming/npm/node_modules/parcel/node_modules/process/browser.js"}],"app1.js":[function(require,module,exports) {
+"use strict";
+
+require("./app1.css");
+
+var _jquery = _interopRequireDefault(require("jquery"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// MODEL
+var Model = {}; // VIEW
+
+var View = {}; // CONTROLLER
+
+var Controller = {};
+var $display = (0, _jquery.default)('#display');
+var $button1 = (0, _jquery.default)('#button1');
+var $button2 = (0, _jquery.default)('#button2');
+var $button3 = (0, _jquery.default)('#button3');
+var $button4 = (0, _jquery.default)('#button4');
+var num = parseInt(localStorage.getItem('res'));
+$display.text(num || 10);
+$button1.on('click', function () {
+  var res = parseInt($display.text());
+  res += 2;
+  localStorage.setItem('res', res.toString());
+  $display.text(res);
+});
+$button2.on('click', function () {
+  var res = parseInt($display.text());
+  res -= 2;
+  localStorage.setItem('res', res.toString());
+  $display.text(res);
+});
+$button3.on('click', function () {
+  var res = parseInt($display.text());
+  res *= 2;
+  localStorage.setItem('res', res.toString());
+  $display.text(res);
+});
+$button4.on('click', function () {
+  var res = parseInt($display.text());
+  res /= 2;
+  localStorage.setItem('res', res.toString());
+  $display.text(res);
+});
+},{"./app1.css":"app1.css","jquery":"../node_modules/jquery/dist/jquery.js"}],"app2.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -11069,6 +11079,7 @@ $tabBar.on('click', 'li', function (e) {
   $li.addClass('selected').siblings().removeClass('selected');
   $tabContent.children().eq(index).addClass('active').siblings().removeClass('active');
 });
+$tabBar.children().eq(0).trigger('click');
 },{"jquery":"../node_modules/jquery/dist/jquery.js","./app2.css":"app2.css"}],"app3.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 

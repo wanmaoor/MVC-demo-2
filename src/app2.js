@@ -10,3 +10,4 @@ $tabBar.on('click', 'li', (e) => {
 	$tabContent.children().eq(index).addClass('active').siblings().removeClass('active');
 });
 
+$tabBar.children().eq(0).trigger('click')

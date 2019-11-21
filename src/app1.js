@@ -1,38 +1,46 @@
 import './app1.css';
+import $ from 'jquery'
 
-const display = document.querySelector('#display');
-const button1 = document.querySelector('#button1');
-const button2 = document.querySelector('#button2');
-const button3 = document.querySelector('#button3');
-const button4 = document.querySelector('#button4');
-const num = localStorage.getItem('res');
+// MODEL
+const Model = {
 
-display.textContent = num || 0;
+}
+// VIEW
+const View = {}
+// CONTROLLER
+const Controller = {}
 
-button1.addEventListener('click', () => {
-	let res = parseInt(display.textContent);
+const $display = $('#display');
+const $button1 = $('#button1');
+const $button2 = $('#button2');
+const $button3 = $('#button3');
+const $button4 = $('#button4');
+const num = parseInt(localStorage.getItem('res'));
+$display.text(num || 10)
+$button1.on('click', () => {
+	let res = parseInt($display.text());
 	res += 2;
 	localStorage.setItem('res', res.toString());
-	display.textContent = res.toString();
+	$display.text(res);
 });
 
-button2.addEventListener('click', () => {
-	let res = parseInt(display.textContent);
+$button2.on('click', () => {
+	let res = parseInt($display.text());
 	res -= 2;
 	localStorage.setItem('res', res.toString());
-	display.textContent = res.toString();
+	$display.text(res);
 });
 
-button3.addEventListener('click', () => {
-	let res = parseInt(display.textContent);
+$button3.on('click', () => {
+	let res = parseInt($display.text());
 	res *= 2;
 	localStorage.setItem('res', res.toString());
-	display.textContent = res.toString();
+	$display.text(res)
 });
 
-button4.addEventListener('click', () => {
-	let res = parseInt(display.textContent);
+$button4.on('click', () => {
+	let res = parseInt($display.text());
 	res /= 2;
 	localStorage.setItem('res', res.toString());
-	display.textContent = res.toString();
+	$display.text(res);
 });
