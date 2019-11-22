@@ -11020,43 +11020,86 @@ var _jquery = _interopRequireDefault(require("jquery"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// MODEL
-var Model = {}; // VIEW
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
-var View = {}; // CONTROLLER
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
 
-var Controller = {};
-var $display = (0, _jquery.default)('#display');
-var $button1 = (0, _jquery.default)('#button1');
-var $button2 = (0, _jquery.default)('#button2');
-var $button3 = (0, _jquery.default)('#button3');
-var $button4 = (0, _jquery.default)('#button4');
-var num = parseInt(localStorage.getItem('res'));
-$display.text(num || 10);
-$button1.on('click', function () {
-  var res = parseInt($display.text());
-  res += 2;
-  localStorage.setItem('res', res.toString());
-  $display.text(res);
-});
-$button2.on('click', function () {
-  var res = parseInt($display.text());
-  res -= 2;
-  localStorage.setItem('res', res.toString());
-  $display.text(res);
-});
-$button3.on('click', function () {
-  var res = parseInt($display.text());
-  res *= 2;
-  localStorage.setItem('res', res.toString());
-  $display.text(res);
-});
-$button4.on('click', function () {
-  var res = parseInt($display.text());
-  res /= 2;
-  localStorage.setItem('res', res.toString());
-  $display.text(res);
-});
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var eventBus = (0, _jquery.default)({}); // MODEL
+
+var Model = {
+  data: {
+    num: parseInt(localStorage.getItem('res')) || 20
+  },
+  update: function update(data) {
+    Object.assign(Model.data, data);
+    eventBus.trigger('numUpdated');
+  }
+}; // VIEW
+
+var View = {
+  el: '#app1',
+  html: function html(replacer) {
+    return "\n\t\t<div class=\"app\">\n    <p id=\"display\">".concat(replacer, "</p>\n    <div id=\"buttons\">\n      <button id=\"button1\">+2</button>\n      <button id=\"button2\">-2</button>\n      <button id=\"button3\">x2</button>\n      <button id=\"button4\">/2</button>\n    </div>\n  </div>\n\t");
+  },
+  mount: function mount(data) {
+    (0, _jquery.default)(View.html(data)).appendTo((0, _jquery.default)(View.el));
+    Controller.bindEvents();
+    eventBus.on('numUpdated', function () {
+      View.render(Model.data.num);
+    });
+  },
+  render: function render(data) {
+    var newElements = (0, _jquery.default)(View.html(data));
+    localStorage.setItem('res', data);
+    (0, _jquery.default)(View.el).children().replaceWith(newElements);
+  }
+}; // CONTROLLER
+
+var Controller = {
+  events: {
+    add: 'click #button1',
+    sub: 'click #button2',
+    multi: 'click #button3',
+    divide: 'click #button4'
+  },
+  bindEvents: function bindEvents() {
+    for (var key in Controller.events) {
+      if (Controller.events.hasOwnProperty(key)) {
+        var _Controller$events$ke = Controller.events[key].split(' '),
+            _Controller$events$ke2 = _slicedToArray(_Controller$events$ke, 2),
+            event = _Controller$events$ke2[0],
+            selector = _Controller$events$ke2[1];
+
+        (0, _jquery.default)(View.el).on(event, selector, Controller[key]);
+      }
+    }
+  },
+  add: function add() {
+    Model.update({
+      num: Model.data.num + 1
+    });
+  },
+  sub: function sub() {
+    Model.update({
+      num: Model.data.num - 1
+    });
+  },
+  multi: function multi() {
+    Model.update({
+      num: Model.data.num * 2
+    });
+  },
+  divide: function divide() {
+    Model.update({
+      num: Model.data.num / 2
+    });
+  }
+};
+View.mount(Model.data.num);
 },{"./app1.css":"app1.css","jquery":"../node_modules/jquery/dist/jquery.js"}],"app2.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
@@ -11153,7 +11196,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "9351" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "7937" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -5,7 +5,6 @@ body {
   display: flex;
   flex-wrap: wrap;
 }
-
 .app {
   width: 50vw;
   height: 50vh;

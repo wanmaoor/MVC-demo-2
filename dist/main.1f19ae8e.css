@@ -5,7 +5,6 @@ body {
   display: flex;
   flex-wrap: wrap;
 }
-
 .app {
   width: 50vw;
   height: 50vh;
@@ -20,15 +19,10 @@ body {
   padding: 0;
   box-sizing: border-box;
 }
-
 ul, ol {
   list-style: none;
 }
 
-
-.app1 {
-
-}
 
 #buttons {
   margin-top: 20px;
@@ -39,27 +33,22 @@ button {
   width: 60px;
   margin-right: 10px;
 }
-
 .tab-bar {
   display: flex;
   width: 50%;
 }
-
 .tab-bar li {
   width: 50%;
   border: 1px solid #000;
   text-align: center;
   cursor: pointer;
 }
-
 .tab-bar li.selected {
   background: darkgray;
 }
-
 .tab-content li {
   display: none;
 }
-
 .tab-content li.active {
   display: block;
 }
@@ -70,7 +59,6 @@ button {
   height: 100px;
   transition: transform 1s;
 }
-
 .square.active {
   transform: translateX(200px);
 }
@@ -78,19 +66,17 @@ button {
   0% {
     background: yellow;
   }
-  100%{
+  100% {
     background: dodgerblue;
   }
 }
-
 .circle {
   width: 200px;
   height: 200px;
   border: 2px solid #000;
   border-radius: 50%;
 }
-
-.circle:hover{
+.circle:hover {
   animation: colorChange 3s alternate ease-in-out infinite;
 }
 

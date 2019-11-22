@@ -1,46 +1,74 @@
 import './app1.css';
-import $ from 'jquery'
+import $ from 'jquery';
 
+const eventBus = $({});
 // MODEL
 const Model = {
-
-}
+	data: {
+		num: parseInt(localStorage.getItem('res')) || 20,
+	},
+	update(data) {
+		Object.assign(Model.data, data);
+		eventBus.trigger('numUpdated');
+	}
+};
 // VIEW
-const View = {}
+const View = {
+	el: '#app1',
+	html(replacer) {
+		return `
+		<div class="app">
+    <p id="display">${replacer}</p>
+    <div id="buttons">
+      <button id="button1">+2</button>
+      <button id="button2">-2</button>
+      <button id="button3">x2</button>
+      <button id="button4">/2</button>
+    </div>
+  </div>
+	`;
+	},
+	mount(data) {
+		$(View.html(data)).appendTo($(View.el));
+		Controller.bindEvents();
+		eventBus.on('numUpdated', () => {
+			View.render(Model.data.num);
+		});
+	},
+	render(data) {
+		let newElements = $(View.html(data));
+		localStorage.setItem('res', data);
+		$(View.el).children().replaceWith(newElements);
+	}
+};
 // CONTROLLER
-const Controller = {}
+const Controller = {
+	events: {
+		add: 'click #button1',
+		sub: 'click #button2',
+		multi: 'click #button3',
+		divide: 'click #button4',
+	},
+	bindEvents() {
+		for (const key in Controller.events) {
+			if (Controller.events.hasOwnProperty(key)) {
+				const [event, selector] = Controller.events[key].split(' ');
+				$(View.el).on(event, selector, Controller[key]);
+			}
+		}
+	},
+	add() {
+		Model.update({num: Model.data.num + 1})
+	},
+	sub() {
+		Model.update({num: Model.data.num - 1})
+	},
+	multi() {
+		Model.update({num: Model.data.num * 2})
+	},
+	divide() {
+		Model.update({num: Model.data.num / 2})
+	}
+};
 
-const $display = $('#display');
-const $button1 = $('#button1');
-const $button2 = $('#button2');
-const $button3 = $('#button3');
-const $button4 = $('#button4');
-const num = parseInt(localStorage.getItem('res'));
-$display.text(num || 10)
-$button1.on('click', () => {
-	let res = parseInt($display.text());
-	res += 2;
-	localStorage.setItem('res', res.toString());
-	$display.text(res);
-});
-
-$button2.on('click', () => {
-	let res = parseInt($display.text());
-	res -= 2;
-	localStorage.setItem('res', res.toString());
-	$display.text(res);
-});
-
-$button3.on('click', () => {
-	let res = parseInt($display.text());
-	res *= 2;
-	localStorage.setItem('res', res.toString());
-	$display.text(res)
-});
-
-$button4.on('click', () => {
-	let res = parseInt($display.text());
-	res /= 2;
-	localStorage.setItem('res', res.toString());
-	$display.text(res);
-});
+View.mount(Model.data.num);
