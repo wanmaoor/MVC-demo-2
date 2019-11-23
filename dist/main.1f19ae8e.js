@@ -11114,15 +11114,65 @@ require("./app2.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var $tabBar = (0, _jquery.default)('.tab-bar');
-var $tabContent = (0, _jquery.default)('.tab-content');
-$tabBar.on('click', 'li', function (e) {
-  var $li = (0, _jquery.default)(e.currentTarget);
-  var index = $li.index();
-  $li.addClass('selected').siblings().removeClass('selected');
-  $tabContent.children().eq(index).addClass('active').siblings().removeClass('active');
-});
-$tabBar.children().eq(0).trigger('click');
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var eventBus = (0, _jquery.default)({});
+var Model = {
+  data: {
+    index: parseInt(localStorage.getItem('index')) || 0
+  },
+  update: function update(data) {
+    Object.assign(Model.data, data);
+    localStorage.setItem('index', Model.data.index.toString());
+    eventBus.trigger('indexChanged');
+  }
+};
+var View = {
+  el: '#app2',
+  html: function html(index) {
+    return "\n\t\t\t<div class=\"app\">\n    \t\t<ol class=\"tab-bar\">\n      \t\t<li class=\"".concat(index === 0 ? 'selected' : '', "\">1</li>\n      \t\t<li class=\"").concat(index === 1 ? 'selected' : '', "\">2</li>\n    \t\t</ol>\n    \t\t<ol class=\"tab-content\">\n      \t\t<li class=\"").concat(index === 0 ? 'active' : '', "\">content 1</li>\n      \t\t<li class=\"").concat(index === 1 ? 'active' : '', "\">content 2</li>\n    \t\t</ol>\n  \t\t</div>\n\t\t");
+  },
+  mount: function mount(data) {
+    (0, _jquery.default)(View.html(data)).appendTo(View.el);
+    Controller.bindEvents();
+    eventBus.on('indexChanged', function () {
+      View.render(Model.data.index);
+    });
+  },
+  render: function render(data) {
+    var newElements = (0, _jquery.default)(View.html(data));
+    (0, _jquery.default)(View.el).children().replaceWith(newElements);
+  }
+};
+var Controller = {
+  events: {
+    changeTab: 'click li'
+  },
+  bindEvents: function bindEvents() {
+    for (var key in Controller.events) {
+      if (Controller.events.hasOwnProperty(key)) {
+        var _Controller$events$ke = Controller.events[key].split(' '),
+            _Controller$events$ke2 = _slicedToArray(_Controller$events$ke, 2),
+            event = _Controller$events$ke2[0],
+            selector = _Controller$events$ke2[1];
+
+        (0, _jquery.default)(View.el).on(event, selector, Controller[key]);
+      }
+    }
+  },
+  changeTab: function changeTab() {
+    Model.update({
+      index: Model.data.index === 1 ? 0 : 1
+    });
+  }
+};
+View.mount(Model.data.index);
 },{"jquery":"../node_modules/jquery/dist/jquery.js","./app2.css":"app2.css"}],"app3.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
@@ -11154,6 +11204,13 @@ var _jquery = _interopRequireDefault(require("jquery"));
 require("./app4.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var $circle = (0, _jquery.default)('#app4 .circle');
+$circle.on('mouseenter', function () {
+  $circle.addClass('active');
+}).on('mouseleave', function () {
+  $circle.removeClass('active');
+});
 },{"jquery":"../node_modules/jquery/dist/jquery.js","./app4.css":"app4.css"}],"main.js":[function(require,module,exports) {
 "use strict";
 
